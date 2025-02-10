@@ -105,13 +105,13 @@ export default function Communications() {
       id: "sig1",
       name: "Signature professionnelle",
       content:
-        "Cordialement,\nJean Dupont\nGestionnaire Tontine Africaine\nTél: +33 6 00 00 00 00",
+        "Cordialement,\nStéphanie Mbida\nGestionnaire Tontine Africaine\nTél: +33 6 00 00 00 00",
       isDefault: true,
     },
     {
       id: "sig2",
       name: "Signature simple",
-      content: "Bien à vous,\nJean Dupont",
+      content: "Bien à vous,\nStéphanie Mbida",
     },
   ]);
   const [selectedSignature, setSelectedSignature] = useState<string>("sig1");

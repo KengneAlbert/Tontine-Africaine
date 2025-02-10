@@ -35,14 +35,14 @@ import {
   SlidersHorizontal,
   HelpCircle,
 } from "lucide-react";
-import { PerformanceChart } from '../components/PerformanceChart';
-import { GeographicDistribution } from '../components/GeographicDistribution';
-import { ExportMenu } from '../components/ExportMenu';
-import { FilterPanel } from '../components/FilterPanel';
-import { NotificationsPanel } from '../components/NotificationsPanel';
-import { Header } from '../components/dashboard/Header';
-import { RegionSelector } from '../components/dashboard/RegionSelector';
-import { StatisticsGrid } from '../components/dashboard/StatisticsGrid';
+import { PerformanceChart } from "../components/PerformanceChart";
+import { GeographicDistribution } from "../components/GeographicDistribution";
+import { ExportMenu } from "../components/ExportMenu";
+import { FilterPanel } from "../components/FilterPanel";
+import { NotificationsPanel } from "../components/NotificationsPanel";
+import { Header } from "../components/dashboard/Header";
+import { RegionSelector } from "../components/dashboard/RegionSelector";
+import { StatisticsGrid } from "../components/dashboard/StatisticsGrid";
 
 interface TontineGroup {
   id: number;
@@ -108,7 +108,9 @@ interface TontineThemeStats {
 }
 
 export default function Dashboard() {
-  const [selectedRegion, setSelectedRegion] = useState<"all" | RegionKey>("all");
+  const [selectedRegion, setSelectedRegion] = useState<"all" | RegionKey>(
+    "all"
+  );
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedGroup, setSelectedGroup] = useState<TontineGroup | null>(null);
   const [timeRange, setTimeRange] = useState("month");
@@ -120,31 +122,35 @@ export default function Dashboard() {
     "epargne" | "theme" | "all"
   >("all");
   const [showHelp, setShowHelp] = useState(false);
-  const [performancePeriod, setPerformancePeriod] = useState<'month' | 'quarter' | 'year'>('month');
+  const [performancePeriod, setPerformancePeriod] = useState<
+    "month" | "quarter" | "year"
+  >("month");
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
-    dateRange: 'month',
-    status: 'all',
+    dateRange: "month",
+    status: "all",
     montantMin: 0,
     montantMax: 100000,
-    type: 'all'
+    type: "all",
   });
 
-  const [notifications, setNotifications] = useState<Array<{
-    id: number;
-    title: string;
-    message: string;
-    type: 'info' | 'warning' | 'success';
-    timestamp: string;
-    read: boolean;
-  }>>([
+  const [notifications, setNotifications] = useState<
+    Array<{
+      id: number;
+      title: string;
+      message: string;
+      type: "info" | "warning" | "success";
+      timestamp: string;
+      read: boolean;
+    }>
+  >([
     {
       id: 1,
       title: "Nouveau membre",
       message: "Marie Dubois a rejoint le groupe Paris",
       type: "success",
       timestamp: "Il y a 5 minutes",
-      read: false
+      read: false,
     },
     {
       id: 2,
@@ -152,7 +158,7 @@ export default function Dashboard() {
       message: "Échéance à venir pour le groupe Dakar",
       type: "warning",
       timestamp: "Il y a 1 heure",
-      read: false
+      read: false,
     },
     {
       id: 3,
@@ -160,18 +166,20 @@ export default function Dashboard() {
       message: "Le groupe Abidjan a atteint son objectif",
       type: "success",
       timestamp: "Il y a 2 heures",
-      read: false
-    }
+      read: false,
+    },
   ]);
 
   const handleMarkAsRead = (id: number) => {
-    setNotifications(notifications.map(notif =>
-      notif.id === id ? { ...notif, read: true } : notif
-    ));
+    setNotifications(
+      notifications.map((notif) =>
+        notif.id === id ? { ...notif, read: true } : notif
+      )
+    );
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map(notif => ({ ...notif, read: true })));
+    setNotifications(notifications.map((notif) => ({ ...notif, read: true })));
   };
 
   const regions = [
@@ -179,14 +187,17 @@ export default function Dashboard() {
     { id: "continent", name: "Continent Africain" },
   ];
 
-  type RegionKey = 'diaspora' | 'continent';
-  const countries: Record<RegionKey, Array<{
-    id: string;
-    name: string;
-    groupCount: number;
-    memberCount: number;
-    groups?: Array<TontineGroup>;
-  }>> = {
+  type RegionKey = "diaspora" | "continent";
+  const countries: Record<
+    RegionKey,
+    Array<{
+      id: string;
+      name: string;
+      groupCount: number;
+      memberCount: number;
+      groups?: Array<TontineGroup>;
+    }>
+  > = {
     diaspora: [
       {
         id: "fr",
@@ -217,7 +228,7 @@ export default function Dashboard() {
                 date: "2024-02-27",
                 type: "deposit",
                 amount: 500,
-                member: "Jean Dupont",
+                member: "Stéphanie Mbida",
               },
               {
                 date: "2024-02-26",
@@ -339,44 +350,137 @@ export default function Dashboard() {
 
   const performanceData = {
     month: [
-      { name: 'Groupe Paris', performance: 98, contributions: 42500, membres: 85 },
-      { name: 'Groupe Lyon', performance: 95, contributions: 38000, membres: 75 },
-      { name: 'Groupe Dakar', performance: 92, contributions: 30000, membres: 100 },
-      { name: 'Groupe Abidjan', performance: 88, contributions: 35000, membres: 90 },
-      { name: 'Groupe Montreal', performance: 85, contributions: 40000, membres: 80 }
+      {
+        name: "Groupe Paris",
+        performance: 98,
+        contributions: 42500,
+        membres: 85,
+      },
+      {
+        name: "Groupe Lyon",
+        performance: 95,
+        contributions: 38000,
+        membres: 75,
+      },
+      {
+        name: "Groupe Dakar",
+        performance: 92,
+        contributions: 30000,
+        membres: 100,
+      },
+      {
+        name: "Groupe Abidjan",
+        performance: 88,
+        contributions: 35000,
+        membres: 90,
+      },
+      {
+        name: "Groupe Montreal",
+        performance: 85,
+        contributions: 40000,
+        membres: 80,
+      },
     ],
     quarter: [
-      { name: 'Q1 2024 Paris', performance: 97, contributions: 127500, membres: 85 },
-      { name: 'Q1 2024 Lyon', performance: 94, contributions: 114000, membres: 75 },
-      { name: 'Q1 2024 Dakar', performance: 93, contributions: 90000, membres: 100 },
-      { name: 'Q1 2024 Abidjan', performance: 91, contributions: 105000, membres: 90 },
-      { name: 'Q1 2024 Montreal', performance: 89, contributions: 120000, membres: 80 }
+      {
+        name: "Q1 2024 Paris",
+        performance: 97,
+        contributions: 127500,
+        membres: 85,
+      },
+      {
+        name: "Q1 2024 Lyon",
+        performance: 94,
+        contributions: 114000,
+        membres: 75,
+      },
+      {
+        name: "Q1 2024 Dakar",
+        performance: 93,
+        contributions: 90000,
+        membres: 100,
+      },
+      {
+        name: "Q1 2024 Abidjan",
+        performance: 91,
+        contributions: 105000,
+        membres: 90,
+      },
+      {
+        name: "Q1 2024 Montreal",
+        performance: 89,
+        contributions: 120000,
+        membres: 80,
+      },
     ],
     year: [
-      { name: '2024 Paris', performance: 96, contributions: 510000, membres: 85 },
-      { name: '2024 Lyon', performance: 93, contributions: 456000, membres: 75 },
-      { name: '2024 Dakar', performance: 94, contributions: 360000, membres: 100 },
-      { name: '2024 Abidjan', performance: 90, contributions: 420000, membres: 90 },
-      { name: '2024 Montreal', performance: 92, contributions: 480000, membres: 80 }
-    ]
+      {
+        name: "2024 Paris",
+        performance: 96,
+        contributions: 510000,
+        membres: 85,
+      },
+      {
+        name: "2024 Lyon",
+        performance: 93,
+        contributions: 456000,
+        membres: 75,
+      },
+      {
+        name: "2024 Dakar",
+        performance: 94,
+        contributions: 360000,
+        membres: 100,
+      },
+      {
+        name: "2024 Abidjan",
+        performance: 90,
+        contributions: 420000,
+        membres: 90,
+      },
+      {
+        name: "2024 Montreal",
+        performance: 92,
+        contributions: 480000,
+        membres: 80,
+      },
+    ],
   };
 
   const geoData = [
-    { id: 'SEN', name: 'Sénégal', groupCount: 35, memberCount: 3500, growth: 12 },
-    { id: 'CIV', name: 'Côte d\'Ivoire', groupCount: 28, memberCount: 2800, growth: 15 },
-    { id: 'MLI', name: 'Mali', groupCount: 22, memberCount: 2200, growth: 8 },
-    { id: 'CMR', name: 'Cameroun', groupCount: 18, memberCount: 1800, growth: 10 },
+    {
+      id: "SEN",
+      name: "Sénégal",
+      groupCount: 35,
+      memberCount: 3500,
+      growth: 12,
+    },
+    {
+      id: "CIV",
+      name: "Côte d'Ivoire",
+      groupCount: 28,
+      memberCount: 2800,
+      growth: 15,
+    },
+    { id: "MLI", name: "Mali", groupCount: 22, memberCount: 2200, growth: 8 },
+    {
+      id: "CMR",
+      name: "Cameroun",
+      groupCount: 18,
+      memberCount: 1800,
+      growth: 10,
+    },
     // Ajoutez d'autres pays selon vos besoins
   ];
 
-  const getPeriodLabel = (period: 'month' | 'quarter' | 'year') => {
+  const getPeriodLabel = (period: "month" | "quarter" | "year") => {
     switch (period) {
-      case 'month':
-        return 'Performances mensuelles';
-      case 'quarter':
-        return 'Performances trimestrielles';
-      case 'year':
-        return 'Performances annuelles';
+      case "month":
+        return "Performances mensuelles";
+      case "quarter":
+        return "Performances trimestrielles";
+      case "year":
+        return "Performances annuelles";
     }
   };
 
@@ -688,19 +792,19 @@ export default function Dashboard() {
     const exportData = [];
 
     // Données des pays
-    if (selectedRegion !== 'all') {
-      countries[selectedRegion].forEach(country => {
+    if (selectedRegion !== "all") {
+      countries[selectedRegion].forEach((country) => {
         exportData.push({
-          type: 'Pays',
+          type: "Pays",
           nom: country.name,
           groupes: country.groupCount,
           membres: country.memberCount,
         });
 
         // Ajouter les données des groupes si disponibles
-        country.groups?.forEach(group => {
+        country.groups?.forEach((group) => {
           exportData.push({
-            type: 'Groupe',
+            type: "Groupe",
             nom: group.name,
             categorie: group.type,
             membres: group.members,
@@ -714,7 +818,7 @@ export default function Dashboard() {
 
     // Ajouter les statistiques globales
     exportData.push({
-      type: 'Statistiques',
+      type: "Statistiques",
       epargne_totale: tontineEpargneStats.totalEpargne,
       participation: `${tontineEpargneStats.tauxParticipation}%`,
       projets_completes: tontineThemeStats.projetsCompletes,
@@ -726,7 +830,7 @@ export default function Dashboard() {
 
   return (
     <main className="p-8">
-      <Header 
+      <Header
         showHelp={showHelp}
         setShowHelp={setShowHelp}
         setShowFilters={setShowFilters}
@@ -749,7 +853,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      <RegionSelector 
+      <RegionSelector
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}
         selectedCountry={selectedCountry}
@@ -759,7 +863,7 @@ export default function Dashboard() {
         countries={countries}
       />
 
-      <StatisticsGrid 
+      <StatisticsGrid
         selectedRegion={selectedRegion}
         selectedCountry={selectedCountry}
         countries={countries}
@@ -870,7 +974,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-
       {/* Notifications Flottantes */}
       <div className="fixed bottom-4 right-4 z-50">
         <button
@@ -878,9 +981,9 @@ export default function Dashboard() {
           className="bg-amber-600 text-white p-3 rounded-full shadow-lg hover:bg-amber-700 relative"
         >
           <Bell className="h-6 w-6" />
-          {notifications.filter(n => !n.read).length > 0 && (
+          {notifications.filter((n) => !n.read).length > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              {notifications.filter(n => !n.read).length}
+              {notifications.filter((n) => !n.read).length}
             </span>
           )}
         </button>
@@ -987,7 +1090,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-
       {/* Section dynamique basée sur le type de tontine sélectionné */}
       {selectedTontineType === "all" ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -1054,17 +1156,24 @@ export default function Dashboard() {
                   </p>
                   <div className="mt-2 flex items-center">
                     <ArrowUpRight className="h-4 w-4 text-green-500" />
-                    <span className="text-xs text-green-600 ml-1">+15% ce mois</span>
+                    <span className="text-xs text-green-600 ml-1">
+                      +15% ce mois
+                    </span>
                   </div>
                 </div>
 
                 <div className="bg-amber-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600">Prochaine distribution</p>
+                  <p className="text-sm text-gray-600">
+                    Prochaine distribution
+                  </p>
                   <p className="text-lg font-bold text-amber-700">
-                    {new Date(tontineEpargneStats.prochaineDistribution).toLocaleDateString()}
+                    {new Date(
+                      tontineEpargneStats.prochaineDistribution
+                    ).toLocaleDateString()}
                   </p>
                   <p className="text-xs text-amber-600 mt-1">
-                    €{tontineEpargneStats.moyenneMensuelle.toLocaleString()} à distribuer
+                    €{tontineEpargneStats.moyenneMensuelle.toLocaleString()} à
+                    distribuer
                   </p>
                 </div>
 
@@ -1076,7 +1185,9 @@ export default function Dashboard() {
                   <div className="w-full bg-blue-200 rounded-full h-1.5 mt-2">
                     <div
                       className="bg-blue-600 h-1.5 rounded-full"
-                      style={{ width: `${tontineEpargneStats.tauxParticipation}%` }}
+                      style={{
+                        width: `${tontineEpargneStats.tauxParticipation}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -1102,7 +1213,9 @@ export default function Dashboard() {
                   <div key={index} className="border rounded-lg p-4">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="font-medium text-gray-900">{projet.nom}</h3>
+                        <h3 className="font-medium text-gray-900">
+                          {projet.nom}
+                        </h3>
                         <p className="text-sm text-gray-500">
                           Objectif: €{projet.objectif.toLocaleString()}
                         </p>
@@ -1120,8 +1233,13 @@ export default function Dashboard() {
                         />
                       </div>
                       <div className="flex justify-between text-xs text-gray-500">
-                        <span>Collecté: €{projet.collecte.toLocaleString()}</span>
-                        <span>Deadline: {new Date(projet.deadline).toLocaleDateString()}</span>
+                        <span>
+                          Collecté: €{projet.collecte.toLocaleString()}
+                        </span>
+                        <span>
+                          Deadline:{" "}
+                          {new Date(projet.deadline).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -1206,9 +1324,11 @@ export default function Dashboard() {
         <GeographicDistribution
           data={geoData}
           onCountrySelect={(countryId) => {
-            const country = countries.continent.find(c => c.id === countryId.toLowerCase());
+            const country = countries.continent.find(
+              (c) => c.id === countryId.toLowerCase()
+            );
             if (country) {
-              setSelectedRegion('continent');
+              setSelectedRegion("continent");
               setSelectedCountry(countryId.toLowerCase());
             }
           }}
@@ -1217,17 +1337,25 @@ export default function Dashboard() {
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-semibold">{getPeriodLabel(performancePeriod)}</h2>
+              <h2 className="text-lg font-semibold">
+                {getPeriodLabel(performancePeriod)}
+              </h2>
               <p className="text-sm text-gray-500 mt-1">
-                {performancePeriod === 'month' ? 'Mars 2024' :
-                 performancePeriod === 'quarter' ? '1er trimestre 2024' :
-                 'Année 2024'}
+                {performancePeriod === "month"
+                  ? "Mars 2024"
+                  : performancePeriod === "quarter"
+                  ? "1er trimestre 2024"
+                  : "Année 2024"}
               </p>
             </div>
             <select
               className="border border-gray-300 rounded-md text-sm p-2"
               value={performancePeriod}
-              onChange={(e) => setPerformancePeriod(e.target.value as 'month' | 'quarter' | 'year')}
+              onChange={(e) =>
+                setPerformancePeriod(
+                  e.target.value as "month" | "quarter" | "year"
+                )
+              }
             >
               <option value="month">Vue mensuelle</option>
               <option value="quarter">Vue trimestrielle</option>
@@ -1235,7 +1363,7 @@ export default function Dashboard() {
             </select>
           </div>
           <div className="h-64">
-            <PerformanceChart 
+            <PerformanceChart
               data={performanceData[performancePeriod]}
               period={performancePeriod}
             />
@@ -1245,15 +1373,20 @@ export default function Dashboard() {
               <div>
                 <p className="text-sm text-gray-500">Moyenne</p>
                 <p className="text-lg font-semibold text-amber-600">
-                  {Math.round(performanceData[performancePeriod]
-                    .reduce((acc, curr) => acc + curr.performance, 0) / 
-                    performanceData[performancePeriod].length)}%
+                  {Math.round(
+                    performanceData[performancePeriod].reduce(
+                      (acc, curr) => acc + curr.performance,
+                      0
+                    ) / performanceData[performancePeriod].length
+                  )}
+                  %
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Total Contributions</p>
                 <p className="text-lg font-semibold text-amber-600">
-                  €{performanceData[performancePeriod]
+                  €
+                  {performanceData[performancePeriod]
                     .reduce((acc, curr) => acc + curr.contributions, 0)
                     .toLocaleString()}
                 </p>

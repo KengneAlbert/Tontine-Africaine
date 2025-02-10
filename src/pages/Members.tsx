@@ -1,19 +1,56 @@
-import React from 'react';
-import { User, Search, Filter, Plus, MoreVertical } from 'lucide-react';
+import React from "react";
+import { User, Search, Filter, Plus, MoreVertical } from "lucide-react";
 
 export default function Members() {
   const members = [
-    { id: 1, name: 'Sophie Martin', email: 'sophie.m@example.com', tontine: 'Investissement 2024', status: 'Actif', joinDate: '23 Feb 2024' },
-    { id: 2, name: 'Jean Dupont', email: 'jean.d@example.com', tontine: 'Projet Immobilier', status: 'En attente', joinDate: '22 Feb 2024' },
-    { id: 3, name: 'Aminata Diallo', email: 'aminata.d@example.com', tontine: 'Épargne Études', status: 'Actif', joinDate: '21 Feb 2024' },
-    { id: 4, name: 'Mohamed Ali', email: 'mohamed.a@example.com', tontine: 'Investissement 2024', status: 'Actif', joinDate: '20 Feb 2024' },
-    { id: 5, name: 'Claire Dubois', email: 'claire.d@example.com', tontine: 'Projet Immobilier', status: 'Inactif', joinDate: '19 Feb 2024' },
+    {
+      id: 1,
+      name: "Sophie Martin",
+      email: "sophie.m@example.com",
+      tontine: "Investissement 2024",
+      status: "Actif",
+      joinDate: "23 Feb 2024",
+    },
+    {
+      id: 2,
+      name: "Stéphanie Mbida",
+      email: "jean.d@example.com",
+      tontine: "Projet Immobilier",
+      status: "En attente",
+      joinDate: "22 Feb 2024",
+    },
+    {
+      id: 3,
+      name: "Aminata Diallo",
+      email: "aminata.d@example.com",
+      tontine: "Épargne Études",
+      status: "Actif",
+      joinDate: "21 Feb 2024",
+    },
+    {
+      id: 4,
+      name: "Mohamed Ali",
+      email: "mohamed.a@example.com",
+      tontine: "Investissement 2024",
+      status: "Actif",
+      joinDate: "20 Feb 2024",
+    },
+    {
+      id: 5,
+      name: "Claire Dubois",
+      email: "claire.d@example.com",
+      tontine: "Projet Immobilier",
+      status: "Inactif",
+      joinDate: "19 Feb 2024",
+    },
   ];
 
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Gestion des Membres</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Gestion des Membres
+        </h1>
         <button className="flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
           <Plus className="h-5 w-5 mr-2" />
           Ajouter un membre
@@ -44,11 +81,21 @@ export default function Members() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Membre</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tontine</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'inscription</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Membre
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tontine
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date d'inscription
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -62,20 +109,30 @@ export default function Members() {
                         </div>
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{member.name}</div>
-                        <div className="text-sm text-gray-500">{member.email}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {member.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {member.email}
+                        </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{member.tontine}</div>
+                    <div className="text-sm text-gray-900">
+                      {member.tontine}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      member.status === 'Actif' ? 'bg-green-100 text-green-800' :
-                      member.status === 'En attente' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        member.status === "Actif"
+                          ? "bg-green-100 text-green-800"
+                          : member.status === "En attente"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
                       {member.status}
                     </span>
                   </td>
@@ -107,11 +164,16 @@ export default function Members() {
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
-                  Affichage de <span className="font-medium">1</span> à <span className="font-medium">5</span> sur <span className="font-medium">12</span> résultats
+                  Affichage de <span className="font-medium">1</span> à{" "}
+                  <span className="font-medium">5</span> sur{" "}
+                  <span className="font-medium">12</span> résultats
                 </p>
               </div>
               <div>
-                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <nav
+                  className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                  aria-label="Pagination"
+                >
                   <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                     Précédent
                   </button>

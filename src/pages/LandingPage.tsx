@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Users, 
@@ -25,9 +25,22 @@ import {
   Settings, 
   HelpCircle, 
   Languages, 
-  Menu
+  Menu,
+  X,
+  ArrowUp
 } from 'lucide-react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { UnityCircle, CommunityGathering } from '../components/illustrations';
+import { TrustsPartners } from '../components/sections/TrustsPartners';
+import { CountryPresence } from '../components/sections/CountryPresence';
+import { GlobalCommunity } from '../components/sections/GlobalCommunity';
+import { CulturalSymbols } from '../components/sections/CulturalSymbols';
+import { Loader, ScrollProgress } from '../components/ui';
+import { Founder } from '../components/sections/Founder';
+import { Helmet } from 'react-helmet';
+import { TraditionalHorn } from '../components/decorations/TraditionalHorn';
+import { CultureTradition } from '../components/sections/CultureTradition';
+import { GuideInteractif } from '../components/GuideInteractif';
 
 const testimonials = [
   {
@@ -74,6 +87,109 @@ const AdminFeature: React.FC<AdminFeatureProps> = ({ icon, text }) => (
   </li>
 );
 
+// Ajout des illustrations pour la hero section
+const HeroIllustration = () => (
+  <motion.div 
+    className="absolute inset-0 overflow-hidden pointer-events-none"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    {/* Cercles de connexion */}
+    <div className="absolute w-full h-full">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            width: '200px',
+            height: '200px'
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{
+            duration: 3,
+            delay: i * 0.5,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        >
+          <div className="w-full h-full rounded-full bg-amber-500/10 backdrop-blur-sm" />
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Symboles africains flottants */}
+    <div className="absolute w-full h-full">
+      {[
+        "⭒", "✧", "◈", "⬡", "⬢", "◇", "◆", "△", "▲", "○", "●", "□", "■"
+      ].map((symbol, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-2xl text-amber-600/30"
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ 
+            y: [0, -20, 0],
+            opacity: [0.3, 1, 0.3],
+            rotate: [0, 360]
+          }}
+          transition={{
+            duration: 4,
+            delay: i * 0.3,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        >
+          {symbol}
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Lignes de connexion */}
+    <svg className="absolute inset-0 w-full h-full">
+      <motion.g
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {Array.from({ length: 8 }).map((_, i) => (
+          <motion.path
+            key={i}
+            d={`M${Math.random() * 100}% ${Math.random() * 100}% Q ${Math.random() * 100}% ${Math.random() * 100}%, ${Math.random() * 100}% ${Math.random() * 100}%`}
+            stroke="url(#lineGradient)"
+            strokeWidth="1"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: 2,
+              delay: i * 0.2,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          />
+        ))}
+      </motion.g>
+      <defs>
+        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(251, 191, 36, 0)" />
+          <stop offset="50%" stopColor="rgba(251, 191, 36, 0.3)" />
+          <stop offset="100%" stopColor="rgba(251, 191, 36, 0)" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </motion.div>
+);
+
 export default function LandingPage() {
   const [activeFeature, setActiveFeature] = useState<number | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -94,65 +210,91 @@ export default function LandingPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simuler un envoi de formulaire
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setSubmitStatus('success');
-    setIsSubmitting(false);
+    try {
+      // Simuler un envoi de formulaire
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setSubmitStatus('success');
 
-    // Reset après 3 secondes
-    setTimeout(() => {
-      setSubmitStatus('idle');
-      setFormState({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        subject: 'general'
-      });
-    }, 3000);
+      // Reset après 3 secondes
+      setTimeout(() => {
+        setSubmitStatus('idle');
+        setFormState({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          subject: 'general'
+        });
+      }, 3000);
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simuler un chargement
+    setTimeout(() => setIsLoading(false), 1500);
+  }, []);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="min-h-screen">
-      {/* Header amélioré */}
+      {/* Ajout des métadonnées SEO */}
+      <Helmet>
+        <title>Tontine Africaine - Plateforme moderne d'épargne collaborative</title>
+        <meta name="description" content="Gérez votre tontine en toute sécurité avec notre plateforme innovante qui allie tradition et modernité." />
+        <meta name="keywords" content="tontine, épargne, Afrique, finance collaborative" />
+        <link rel="alternate" href="https://tontine-africaine.com" hrefLang="fr" />
+      </Helmet>
+
+      {/* Ajouter le skip link pour l'accessibilité */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:px-4 focus:py-2 focus:bg-amber-600 focus:text-white">
+        Aller au contenu principal
+      </a>
+
+      <ScrollProgress />
+      
+      {/* Header avec navigation responsive améliorée */}
       <nav className="bg-gradient-to-b from-white/95 to-white/90 backdrop-blur-xl fixed w-full z-50 border-b border-amber-100/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            {/* Logo et Nom */}
+            {/* Logo et Nom - Ajustement responsive */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center space-x-3"
+              className="flex items-center space-x-3 shrink-0"
             >
               <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-2 rounded-lg hover:shadow-lg transition-all duration-300">
-                <Users className="h-8 w-8 text-white" />
+                <Users className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-amber-800 text-transparent bg-clip-text">
+              <span className="text-base sm:text-xl font-bold bg-gradient-to-r from-amber-600 to-amber-800 text-transparent bg-clip-text">
                 Tontine Africaine
               </span>
             </motion.div>
 
-            {/* Navigation principale */}
-            <div className="hidden md:flex items-center space-x-8">
+            {/* Navigation principale - Desktop */}
+            <div className="hidden lg:flex items-center space-x-8">
               <NavLink href="#features">Fonctionnalités</NavLink>
               <NavLink href="#security">Sécurité</NavLink>
               <NavLink href="#about">À propos</NavLink>
-              <NavLink href="#pricing">Tarifs</NavLink>
+              <NavLink href="#participate">Participer</NavLink> {/* Remplacer #pricing par #participate */}
               <NavLink href="#contact">Contact</NavLink>
             </div>
 
-            {/* Actions */}
-            <div className="hidden md:flex items-center space-x-4">
+            {/* Actions - Desktop */}
+            <div className="hidden lg:flex items-center space-x-4">
               <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <Languages className="h-5 w-5 text-gray-600" />
               </button>
               <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <HelpCircle className="h-5 w-5 text-gray-600" />
               </button>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link 
                   to="/dashboard" 
                   className="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 py-2.5 rounded-lg hover:shadow-lg transition duration-300 flex items-center space-x-2"
@@ -164,10 +306,14 @@ export default function LandingPage() {
             </div>
 
             {/* Menu mobile amélioré */}
-            <div className="md:hidden">
+            <div className="lg:hidden flex items-center space-x-4">
+              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <Languages className="h-5 w-5 text-gray-600" />
+              </button>
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Menu principal"
               >
                 <Menu className="h-6 w-6 text-gray-600" />
               </button>
@@ -176,52 +322,98 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Menu mobile amélioré */}
+      {/* Menu mobile amélioré avec animation */}
       <AnimatePresence>
         {showMobileMenu && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-y-0 right-0 w-full max-w-sm bg-white z-50 shadow-2xl"
-          >
-            {/* ... mobile menu content ... */}
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowMobileMenu(false)}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            />
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 25 }}
+              className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-50"
+            >
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between p-4 border-b">
+                  <span className="text-lg font-semibold text-gray-900">Menu</span>
+                  <button
+                    onClick={() => setShowMobileMenu(false)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <X className="h-6 w-6 text-gray-600" />
+                  </button>
+                </div>
+                <div className="flex-1 overflow-y-auto">
+                  <div className="px-4 py-6 space-y-6">
+                    {/* Navigation links */}
+                    <div className="space-y-4">
+                      <MobileNavLink href="#features" onClick={() => setShowMobileMenu(false)}>
+                        <Sparkles className="h-5 w-5 text-amber-600" />
+                        Fonctionnalités
+                      </MobileNavLink>
+                      <MobileNavLink href="#security" onClick={() => setShowMobileMenu(false)}>
+                        <Shield className="h-5 w-5 text-amber-600" />
+                        Sécurité
+                      </MobileNavLink>
+                      <MobileNavLink href="#about" onClick={() => setShowMobileMenu(false)}>
+                        <Users className="h-5 w-5 text-amber-600" />
+                        À propos
+                      </MobileNavLink>
+                      <MobileNavLink href="#participate" onClick={() => setShowMobileMenu(false)}>
+                        <Coins className="h-5 w-5 text-amber-600" />
+                        Participer
+                      </MobileNavLink>
+                      <MobileNavLink href="#contact" onClick={() => setShowMobileMenu(false)}>
+                        <Mail className="h-5 w-5 text-amber-600" />
+                        Contact
+                      </MobileNavLink>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 border-t">
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center justify-center w-full px-6 py-3 text-white bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg shadow-lg"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    <span>Connexion</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
-      {/* Hero Section avec parallax */}
+      {/* Hero Section modifiée */}
       <section className="relative min-h-screen flex items-center pt-20">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 grid grid-cols-3 gap-1 p-1"
-        >
-          {Array.from({ length: 15 }).map((_, i) => (
-            <div key={i} className="aspect-square">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.1, 0] }}
-                transition={{
-                  duration: 3,
-                  delay: Math.random() * 2,
-                  repeat: Infinity,
-                  repeatType: "reverse"
-                }}
-                className="w-full h-full bg-amber-200/20 rounded-full"
-              />
-            </div>
-          ))}
-        </motion.div>
-        
+        {/* Fond avec motifs */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute inset-0 kente-pattern opacity-70" />
+          <div className="absolute inset-0 adinkra-pattern opacity-60" />
+          <div className="absolute inset-0 ndebele-pattern opacity-50" />
+          <div className="absolute inset-0 ashanti-pattern opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-amber-50/30 to-transparent" />
+        </div>
+
+        {/* Nouvelle illustration interactive */}
+        <HeroIllustration />
+
+        {/* Contenu principal */}
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
+          <motion.div className="text-center relative"> {/* Ajout de relative */}
+            {/* Ajout des cornes */}
+            <TraditionalHorn direction="left" />
+            <TraditionalHorn direction="right" />
+            
             {/* Badge animé */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -353,30 +545,90 @@ export default function LandingPage() {
             ].map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative group p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="hover-lift"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="absolute -top-6 left-6">
-                  <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-4 rounded-xl shadow-lg">
-                    {React.cloneElement(feature.icon as any, { className: "h-6 w-6 text-white" })}
+                <div
+                  className="relative group p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="absolute -top-6 left-6">
+                    <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-4 rounded-xl shadow-lg">
+                      {React.cloneElement(feature.icon as any, { className: "h-6 w-6 text-white" })}
+                    </div>
                   </div>
-                </div>
-                <div className="mt-6">
-                  <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
-                  <p className="mt-2 text-gray-600">{feature.description}</p>
+                  <div className="mt-6">
+                    <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
+                    <p className="mt-2 text-gray-600">{feature.description}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
         </div>
+
+        {/* Éléments décoratifs supplémentaires */}
+        <motion.div 
+          className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-white to-transparent"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        />
       </section>
 
+      <TrustsPartners />
+      
+      {/* Ajouter la nouvelle section GlobalCommunity */}
+      <GlobalCommunity />
+      
+      {/* Ajout de la section Fondatrice */}
+      <Founder />
+      
+      {/* <CountryPresence /> */}
+
+      <section className="py-24 bg-gradient-to-b from-white to-amber-50/30 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <UnityCircle className="w-full max-w-lg mx-auto" />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+              />
+            </div>
+            <div>
+              <motion.h2
+                className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                L'Union fait la Force
+              </motion.h2>
+              <motion.p
+                className="text-xl text-gray-600 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                Notre plateforme s'inspire des valeurs traditionnelles africaines de solidarité et d'entraide mutuelle. Ensemble, construisons un avenir financier plus fort.
+              </motion.p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CultureTradition />
+
+      {/* <CountryPresence /> */}
+
       {/* Nouvelle section Comment ça marche */}
-      <section className="py-24 bg-gradient-to-b from-white to-amber-50">
+      <section className="py-24 bg-gradient-to-b from-white to-amber-50 relative">
+        <div className="absolute inset-0 bambara-pattern opacity-30" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -435,8 +687,38 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section className="py-24 bg-gradient-to-b from-amber-50/30 to-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <motion.h2
+                className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                Une Communauté Solidaire
+              </motion.h2>
+              <motion.p
+                className="text-xl text-gray-600 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                Rejoignez une communauté dynamique qui perpétue les traditions d'épargne collective tout en embrassant l'innovation technologique.
+              </motion.p>
+            </div>
+            <div className="order-1 lg:order-2">
+              <CommunityGathering className="w-full max-w-lg mx-auto" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Nouvelle section Témoignages */}
-      <section className="py-24 bg-gradient-to-b from-white to-amber-50/30">
+      <section className="py-24 bg-gradient-to-b from-white to-amber-50/30 relative">
+        <div className="absolute inset-0 yoruba-pattern opacity-25" />
         <div className="max-w-7xl mx-auto px-4">
           <Carousel testimonials={testimonials} />
         </div>
@@ -475,6 +757,7 @@ export default function LandingPage() {
 
       {/* Nouvelle section Avantages */}
       <section className="py-32 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
+        <div className="absolute inset-0 maasai-pattern opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div className="text-center mb-20">
             <motion.span 
@@ -543,8 +826,9 @@ export default function LandingPage() {
       </section>
 
       {/* Nouvelle section Contact */}
-      <section className="py-24 bg-amber-50" id="contact">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-amber-50 relative z-0" id="contact"> {/* Ajout de z-0 */}
+        <div className="absolute inset-0 mudcloth-pattern opacity-20 pointer-events-none" /> {/* Ajout de pointer-events-none */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"> {/* Ajout de z-10 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -597,17 +881,19 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               onSubmit={handleSubmit}
-              className="bg-white rounded-2xl shadow-xl p-8"
+              className="bg-white rounded-2xl shadow-xl p-8 relative z-10" // Ajout de relative et z-10
             >
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                     Sujet
                   </label>
                   <select
+                    id="subject"
+                    name="subject"
                     value={formState.subject}
                     onChange={e => setFormState(prev => ({ ...prev, subject: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all cursor-pointer"
                   >
                     <option value="general">Renseignement général</option>
                     <option value="support">Support technique</option>
@@ -617,59 +903,66 @@ export default function LandingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       Nom complet
                     </label>
                     <input
+                      id="name"
                       type="text"
                       value={formState.name}
                       onChange={e => setFormState(prev => ({ ...prev, name: e.target.value }))}
                       className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                       Email
                     </label>
                     <input
+                      id="email"
                       type="email"
                       value={formState.email}
                       onChange={e => setFormState(prev => ({ ...prev, email: e.target.value }))}
                       className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                     Téléphone (optionnel)
                   </label>
                   <input
+                    id="phone"
                     type="tel"
                     value={formState.phone}
                     onChange={e => setFormState(prev => ({ ...prev, phone: e.target.value }))}
                     className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Message
                   </label>
                   <textarea
+                    id="message"
                     value={formState.message}
                     onChange={e => setFormState(prev => ({ ...prev, message: e.target.value }))}
                     rows={4}
                     className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  type="submit"
                   disabled={isSubmitting}
                   className={`w-full py-3 relative overflow-hidden rounded-xl text-white font-medium
                     ${isSubmitting ? 'bg-gray-400' : 'bg-gradient-to-r from-amber-500 to-amber-600'}
@@ -700,8 +993,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer amélioré */}
+      {/* Footer avec motif adinkra */}
       <footer className="bg-gray-900 pt-16 pb-12 relative overflow-hidden">
+        <div className="absolute inset-0 adinkra-pattern opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-amber-900/10 to-transparent opacity-50" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
@@ -786,11 +1080,15 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Ajouter un bouton retour en haut */}
+      <BackToTopButton />
+      <GuideInteractif />
     </div>
   );
 }
 
-const NavLink = ({ href, children }) => (
+const NavLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => (
   <a 
     href={href}
     className="text-gray-600 hover:text-amber-600 transition-colors duration-300 text-sm font-medium"
@@ -799,7 +1097,13 @@ const NavLink = ({ href, children }) => (
   </a>
 );
 
-const StatCard = ({ number, label, icon }) => (
+interface StatCardProps {
+  number: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ number, label, icon }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -819,7 +1123,13 @@ const StatCard = ({ number, label, icon }) => (
 );
 
 // Nouveau composant Carousel
-const Carousel = ({ testimonials }) => {
+interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+}
+
+const Carousel: React.FC<{ testimonials: Testimonial[] }> = ({ testimonials }) => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -877,7 +1187,12 @@ const Carousel = ({ testimonials }) => {
 };
 
 // Nouveaux composants Footer
-const FooterLink = ({ href, children }) => (
+interface FooterLinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
+const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
   <li>
     <a 
       href={href}
@@ -888,7 +1203,12 @@ const FooterLink = ({ href, children }) => (
   </li>
 );
 
-const SocialLink = ({ href, icon: Icon }) => (
+interface SocialLinkProps {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const SocialLink: React.FC<SocialLinkProps> = ({ href, icon: Icon }) => (
   <a 
     href={href}
     className="text-gray-400 hover:text-amber-500 transition-colors"
@@ -896,3 +1216,50 @@ const SocialLink = ({ href, icon: Icon }) => (
     <Icon className="h-5 w-5" />
   </a>
 );
+
+// Nouveau composant pour les liens de navigation mobile
+interface MobileNavLinkProps {
+  href: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+const MobileNavLink: React.FC<MobileNavLinkProps> = ({ href, onClick, children }) => (
+  <a
+    href={href}
+    onClick={onClick}
+    className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-amber-50 rounded-lg transition-colors"
+  >
+    {children}
+  </a>
+);
+
+// Nouveau composant BackToTopButton
+const BackToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      window.scrollY > 500 ? setIsVisible(true) : setIsVisible(false);
+    };
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed bottom-8 right-8 p-3 bg-amber-600 text-white rounded-full shadow-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 z-50"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Retour en haut"
+        >
+          <ArrowUp className="h-6 w-6" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};

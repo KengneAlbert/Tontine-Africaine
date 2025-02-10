@@ -1,34 +1,40 @@
-import React from 'react';
-import { ArrowUpRight, ArrowDownRight, Search, Filter, Download } from 'lucide-react';
+import React from "react";
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  Search,
+  Filter,
+  Download,
+} from "lucide-react";
 
 export default function Transactions() {
   const transactions = [
-    { 
-      id: 1, 
-      type: 'Versement',
+    {
+      id: 1,
+      type: "Versement",
       amount: 500,
-      member: 'Sophie Martin',
-      tontine: 'Investissement 2024',
-      date: '24 Feb 2024',
-      status: 'Complété'
+      member: "Sophie Martin",
+      tontine: "Investissement 2024",
+      date: "24 Feb 2024",
+      status: "Complété",
     },
-    { 
-      id: 2, 
-      type: 'Retrait',
+    {
+      id: 2,
+      type: "Retrait",
       amount: 1200,
-      member: 'Jean Dupont',
-      tontine: 'Projet Immobilier',
-      date: '23 Feb 2024',
-      status: 'En cours'
+      member: "Stéphanie Mbida",
+      tontine: "Projet Immobilier",
+      date: "23 Feb 2024",
+      status: "En cours",
     },
-    { 
-      id: 3, 
-      type: 'Versement',
+    {
+      id: 3,
+      type: "Versement",
       amount: 300,
-      member: 'Aminata Diallo',
-      tontine: 'Épargne Études',
-      date: '22 Feb 2024',
-      status: 'Complété'
+      member: "Aminata Diallo",
+      tontine: "Épargne Études",
+      date: "22 Feb 2024",
+      status: "Complété",
     },
   ];
 
@@ -103,11 +109,21 @@ export default function Transactions() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Membre</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tontine</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Transaction
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Membre
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tontine
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -115,10 +131,14 @@ export default function Transactions() {
                 <tr key={transaction.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${
-                        transaction.type === 'Versement' ? 'bg-green-100' : 'bg-red-100'
-                      }`}>
-                        {transaction.type === 'Versement' ? (
+                      <div
+                        className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${
+                          transaction.type === "Versement"
+                            ? "bg-green-100"
+                            : "bg-red-100"
+                        }`}
+                      >
+                        {transaction.type === "Versement" ? (
                           <ArrowUpRight className={`h-4 w-4 text-green-600`} />
                         ) : (
                           <ArrowDownRight className={`h-4 w-4 text-red-600`} />
@@ -135,18 +155,26 @@ export default function Transactions() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{transaction.member}</div>
+                    <div className="text-sm text-gray-900">
+                      {transaction.member}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{transaction.tontine}</div>
+                    <div className="text-sm text-gray-900">
+                      {transaction.tontine}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {transaction.date}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      transaction.status === 'Complété' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        transaction.status === "Complété"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
                       {transaction.status}
                     </span>
                   </td>
@@ -170,11 +198,16 @@ export default function Transactions() {
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
-                  Affichage de <span className="font-medium">1</span> à <span className="font-medium">3</span> sur <span className="font-medium">12</span> résultats
+                  Affichage de <span className="font-medium">1</span> à{" "}
+                  <span className="font-medium">3</span> sur{" "}
+                  <span className="font-medium">12</span> résultats
                 </p>
               </div>
               <div>
-                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <nav
+                  className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                  aria-label="Pagination"
+                >
                   <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                     Précédent
                   </button>
